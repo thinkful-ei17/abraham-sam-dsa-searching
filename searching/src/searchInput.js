@@ -8,20 +8,24 @@ class SearchInput extends React.Component {
         if (!number) {
             throw new Error('Input not a number.')
         }
+        let count = 0;
 
         for (let i=0; i<this.props.data.length-1; i++) {
+            count++
             if (this.props.data[i] === number) {
                 this.setState(Object.assign({}, this.props, {
                     number,
-                    count: i+1
+                    count: count,
+                    isFound: true
                 }))
                 return;
             }
-            this.setState(Object.assign({}, this.props, {
+           
+        } 
+        this.setState(Object.assign({}, this.props, {
                 number,
-                count: null
+                count: count
             }))
-        }
     }
 
     binarySearch(number, start=0, last=this.props.sortedData.length, count=0){
@@ -30,8 +34,9 @@ class SearchInput extends React.Component {
       if(start > last) {
         this.setState(Object.assign({}, this.props, {
           number: num,
-          count: null
+          count: count,
         }))
+        
         return;
       }
 
@@ -43,7 +48,8 @@ class SearchInput extends React.Component {
       if(currentValue === num){
         this.setState(Object.assign({}, this.props, {
           number: num,
-          count: count
+          count: count,
+          isFound: true
       }));
         return;
       } 
@@ -65,8 +71,8 @@ class SearchInput extends React.Component {
             return '';
         }
 
-        if(this.state.count === null) {
-            return `${this.state.number} was not found in the list`;
+        if(!this.state.isFound) {
+            return `${this.state.number} was not found in the list in ${this.state.count} iterations`;
         }
 
         if(this.state.count === 1) {
@@ -194,7 +200,8 @@ SearchInput.defaultProps = {
       98,
       98 ],
     count: null,
-    number: null
+    number: null,
+    isFound: false
 }
 
 export default SearchInput;
