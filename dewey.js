@@ -23,12 +23,27 @@ const findBook = (book, beginning=0, end=library.length) => {
 
   if (currentBook.dewey === book.dewey) {
     for (let i=0; i<library.length; i++) {
-      if (library[index + i].author === book.author) {
+      if (!library[index + i]) {
+        break;
+      }
+      if (library[index + i].title === book.title) {
         return library[index + i];
-      } else if (library[index - i].author === book.author) {
-        return library[index - i];
+      } 
+      if (library[index + i].dewey !== book.dewey) {
+        break;
       }
     }
+    for (let i=1; i<library.length; i++) {
+      if (!library[index - i]) {
+        return 'Book not found';
+      }  
+      if (library[index - i].title === book.title) {
+        return library[index - i];
+      } 
+      if (library[index - i].dewey !== book.dewey) {
+        return 'Book not found';
+      }
+    } 
   } else if (currentBook.dewey > book.dewey) {
     return findBook(book, beginning, index-1);
   } else if (currentBook.dewey < book.dewey) {
