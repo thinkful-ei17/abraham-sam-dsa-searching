@@ -7,18 +7,16 @@ for(let i = 0; i < dataset.length; i++){
   bst.insert( dataset[i] );
 }
 
-const results = [];
-
-function inOrder(tree){
+function inOrder(tree, results=[]){
     // Left, then node, then right
     if(tree.left){
-      inOrder(tree.left);
+      inOrder(tree.left, results);
     }
     // only when something is a node do we insert
     results.push(tree.key);
 
     if(tree.right){
-      inOrder(tree.right);
+      inOrder(tree.right, results);
     }
 
     return results;
